@@ -1,20 +1,36 @@
-# Hydejack Starter Kit
+##[点我查看中文说明/Click here for Chinese instructions](https://github.com/bit-ranger/blog/blob/gh-pages/README_zh_CN.md)
 
-A quicker, cleaner way to get started blogging with [Hydejack](https://hydejack.com/).
+# Blog Address
 
-## Quick Start
-### Running locally
-1. Clone repository (git users), or [download] and unzip.
-2. Open terminal, `cd` into root directory (where `_config.yml` is located)
-3. Run `bundle install` [^1]
-4. Run `bundle exec jekyll serve`
-5. Open <http://localhost:4000/hydejack-starter-kit/>
+<https://bit-ranger.github.io/blog/>
 
-## What's next?
-* Open files and read the comments
-* Read the [docs](https://hydejack.com/docs/)
-* Buy the [PRO version](https://hydejack.com/download/) to get the project and resume layout, newsletter subscription box, custom forms, and more.
 
-[^1]: Requires Bundler. Install with `gem install bundler`.
+# Must Modify
 
-[download]: https://github.com/hydecorp/hydejack-starter-kit/archive/master.zip
+## 1.swiftype
+
+This service provides the on-site search function.
+
+Service address: <https://swiftype.com/>.
+
+Documentation: <https://swiftype.com/documentation/site-search/crawler-quick-start/>
+
+After the setup is complete， you need to modify the `swiftype.searchId` in `_config.yml`.
+
+In your swiftype engine, go to `Install Search`, you will find the `swiftype.searchId`.
+
+```html
+<script type="text/javascript">
+...
+...
+  _st('install','swiftype.searchId','2.0.0');
+</script>
+```
+
+## 2.gitment
+
+This service provides the comment function.
+
+Service address： <https://github.com/imsun/gitment>.
+
+After the setup is complete， you need to modify the `gitment`  in `_config.yml`.
