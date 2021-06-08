@@ -34,10 +34,5 @@ github:
   username: lianbian
 swiftype:
   searchId: iXZyPokVfxFaBTvi64Y6
-gitment:
-    repo: lianbian.github.io
-    client_id: b4d5f3996c2b1038c398
-    client_secret:  da7b579f2938ca7bc72d7c0f16dccc5e78342c57
-
 url: "https://lianbian.github.io/"
 imgrepo: "https://lianbian.github.io/static/img"
