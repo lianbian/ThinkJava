@@ -18,11 +18,9 @@ categories: 职业发展
 5. 《java核心技术2》
 6. 《java编程思想》
 
-## spring
+## Spring
 
 1. 《Spring5框架最新教程》尚硅谷视频
-2. 《Spring实战第五版》
-3. 《Spring源码深度剖析第二版》
 4. 《雷丰阳2021版SpringBoot2零基础入门springboot全套完整版》B站视频
 
 # Java进阶
