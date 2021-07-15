@@ -157,7 +157,6 @@ interface ApplePredicate {
 // 二、定义具体的策略
 // 绿色苹果策略
 class greenApplePredicate implements ApplePredicate {
-
     @Override
     public boolean test(Apple apple) {
         return apple.getWeight() > 150;
