@@ -13,17 +13,40 @@ categories: java基础
 Apple 实体类：
 
 ```java
-@Data
 class Apple {
-    Apple(String color, String weight) {
-      	this.color = color;
-      	this.weight = weight;
-    }
-  
-  	private String color;
-  	private String weight;
-}
+    public Apple() {
 
+    }
+
+    public Apple(int weight, String color) {
+        this.color = color;
+        this.weight = weight;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    private String color;
+    private int weight;
+}
+```
+
+苹果列表集合
+
+```java
 List<Apple> apples = Array.asList(
   new Apple("green", 100), 
   new Apple("red", 110), 
@@ -34,129 +57,159 @@ List<Apple> apples = Array.asList(
 需求1：找出绿色的苹果
 
 ```java
+// 接口定义
 List<Apple> findGreenApples(List<Apple> apples);
-
-List<Apple> greenApples = new ArrayList()<>;
-for(Apple apple:apples) {
-   if(apple.getColor.equal("green")) {
+// 代码实现
+List<Apple> findGreenApples(List<Apple> apples) {
+  List<Apple> greenApples = new ArrayList<>();
+  for(Apple apple:apples) {
+    if(apple.getColor().equals("green")) {
       greenApples.add(apple);
-   }
-}
+    }
+  }
 
+  return greenApples;
+}
+// 打印测试
+List<Apple> greenApples = findGreenApples(apples);
 System.out.println(greenApples);
 ```
 
-需求2：找出大于100克的苹果
+需求2：找到红色的苹果
 
 ```java
-List<Apple> findGt100Apples(List<Apple> apples);
+// 接口定义
+List<Apple> findRedApples(List<Apple> apples);
+// 方法实现
+List<Apple> findRedApples(List<Apple> apples) {
+  List<Apple> redApples = new ArrayList<>();
+  for(Apple apple:apples) {
+    if(apple.getColor().equals("red")) {
+      redApples.add(apple);
+    }
+  }
 
-List<Apple> gt100Apples = new ArrayList()<>;
-for(Apple apple:apples) {
-   if(apple.getWeight > 100) {
-      gt100Apples.add(apple);
-   }
+  return redApples;
 }
+// 打印测试
+redApples = findRedApples(apples);
+System.out.println(redApples);
+```
 
+需求3：找出大于100克的苹果
+
+```java
+// 接口定义
+List<Apple> findGt100Apples(List<Apple> apples);
+// 代码实现
+List<Apple> findGt100Apples(List<Apple> apples) {
+  List<Apple> gt100Apples = new ArrayList()<>;
+  for(Apple apple:apples) {
+    if(apple.getWeight() > 100) {
+      gt100Apples.add(apple);
+    }
+  }
+
+  return gt100Apples;
+}
+// 打印测试
+List<Apple> gt100Apples = findGt100Apples(apples);
 System.out.println(gt100Apples);
 ```
 
-需求3：找出绿色的大于100克的苹果
+需求4：找出绿色的大于100克的苹果
 
 ```java
+// 接口定义
 List<Apple> findGreenAndGt100Apples(List<Apple> apples);
-
-List<Apple> greenAndGt100Apples = new ArrayList()<>;
-for(Apple apple:apples) {
-   if(apple.getColor.equal("green") && apple.getWeight > 100) {
+// 方法实现
+List<Apple> findGreenAndGt100Apples(List<Apple> apples) {
+  List<Apple> greenAndGt100Apples = new ArrayList<>();
+  for(Apple apple:apples) {
+    if(apple.getColor().equals("green") && apple.getWeight() > 100) {
       greenAndGt100Apples.add(apple);
-   }
-}
+    }
+  }
 
+  return greenAndGt100Apples;
+}
+// 打印测试
+List<Apple> greenAndGt100Apples = findGreenAndGt100Apples(apples);
 System.out.println(greenAndGt100Apples);
-```
-
-需求4：找到红色的苹果
-
-```java
-List<Apple> findRedApples(List<Apple> apples);
-
-List<Apple> redApples = new ArrayList()<>;
-for(Apple apple:apples) {
-   if(apple.getColor.equal("red")) {
-      redApples.add(apple);
-   }
-}
-
-System.out.println(redApples);
 ```
 
 ### 缺点
 
 1. 重复的代码太多；
 2. 不方便维护与扩展；
-3. 站在人的角度出发，阅读性也不高；
+3. 站在人的思维的角度，代码的阅读性不高；
 
-### 改进
+### 改进本质：让方法的参数具有行为能力
 
-#### 本质：让方法的参数具有行为能力
-
-1. 策略模式
-2. 匿名内部类
-3. Lambda表达式
+#### 策略模式
 
 ```java
-// 策略模式
-interface filterApple {
-     boolean fa(apple);
+// 一、定义策略接口
+interface ApplePredicate {
+    boolean test(Apple apple);
 }
 
-class greenFilterApple imp filterApple{
-  	public boolean fa(apple){
-       if(apple.getColor.equal("green")) {
-         return true;
-       } else {
-         return false;
-       }
+// 二、定义具体的策略
+// 绿色苹果策略
+class greenApplePredicate implements ApplePredicate {
+
+    @Override
+    public boolean test(Apple apple) {
+        return apple.getWeight() > 150;
     }
 }
 
-class gt100FilterApple imp filterApple{
-  	public boolean fa(apple){
-       if(apple.getWeight > 100) {
-         return true;
-       } else {
-         return false;
-       }
+// 红色苹果策略
+class redApplePredicate implements ApplePredicate {
+    @Override
+    public boolean test(Apple apple) {
+        return apple.getWeight() > 150;
     }
 }
 
-class appFuns(){
-   public static List<Apple> findApples(List<Apple> apples, interface filterApple) {
-       List<Apple> result = new ArrayList()<>;
-       for(Apple apple:apples) {
-          if(filterApple.fa(apple)) {
-            result.add(apple);
-          }
-       }
-   }
+// 找出大于100克的苹果（省略）
+// 找出绿色的大于100克的苹果（省略）
+
+// 三、利用策略来过滤
+public static List<Apple> filterApples(List<Apple> inventory, ApplePredicate p) {
+  List<Apple> result = new ArrayList<>();
+  for (Apple apple : inventory) {
+    if (p.test(apple)) {
+      result.add(apple);
+    }
+  }
+
+  return result;
 }
 
-List<Apple> greenApples = appFuns.findApples(apples, new gt100FilterApple());
-List<Apple> gt100Apples = appFuns.findApples(apples, new gt100FilterApple());
-System.out.println(greeApples);
-System.out.println(gt100Apples);
+// 打印测试
 
-// 匿名类、内部类
+// 通过策略的方式，筛选出绿色苹果
+List<Apple> greenApples = filterApples(apples, new greenApplePredicate());
+System.out.println(greenApples);
 
-// lambda表达式
-List<Apple> greenApples = apples.strems()
-  .filter(apple -> apple.getColor().equal("green"))
-  .conxxxx.toList();
+// 通过策略的方式，筛选出红色苹果
+List<Apple> redApples = filterApples(apples, new redApplePredicate());
+System.out.println(redApples);
+```
 
-List<Apple> gt100Apples = apples.strems()
-  .filter(apple -> apple.getWeight > 100)
-  .conxxxx.toList();
+
+
+#### 匿名内部类
+
+#### Lambda表达式
+
+```java
+// 筛选绿色苹果
+List<Apple> greenApples = apples.stream().filter(apple -> apple.getColor().equals("green")).collect(Collectors.toList());
+
+// 筛选出红色苹果
+List<Apple> redApples = apples.stream().filter(apple -> apple.getColor().equals("red")).collect(Collectors.toList());
 ```
 
 
@@ -173,52 +226,32 @@ List<Apple> gt100Apples = apples.strems()
 
 ## lambda的语法
 
-```java
-Comparator<Apple> byColor = new Comparator<Apple>() {
-   @Override
-   public int compar(Apple o1, Apple o2) {
-      return o1.getColor().comparTo(o2.getColor);
-   }
-}
-
-// lambda
-Comparator<Apple> byColor2 = (o1, o2) -> o1.getColor().compareTo(o2.getColor());
-
-parameter list     arrow       lambda body
-(o1, o2)            ->         o1.getColor().compareTo(o2.getColor());
-
-// Function
-Function<String, Integer> stringFunction = s->s.length();
-Predicate<Apple> p = (Apple apple)->a.getColor().equals("green");
-
-()->42
-public interface Test{
-   public int fun();
-}
-
-(int x, int y) -> {
-   System.out.println(x);
-	 System.out.println(y);
-}
-
-public interface Test{
-   public void fun(int x, int y);
-}
-```
+| 参数             | 符号  | 表达式                                          |
+| ---------------- | ----- | ----------------------------------------------- |
+| parameter list   | arrow | lambda body                                     |
+| (apple1, apple2) | ->    | apple1.getColor().compareTo(apple2.getColor()); |
 
 ## 函数式接口
 
 ### 什么是函数式接口
 
-定义：一个接口，只有一个需要去实现的方法（默认实现方法除外）。可以使用@FunctionalInterface注解标示，在编译期间，会执行是否是函数式接口检查，不使用 @FunctionalInterface 注解但是符合定义的，也是函数式接口。
+1. 接口有且只有一个抽象方法；
+2. 允许定义静态的非抽象方法；
+3. 允许定义默认defalut非抽象方法；
+4. 允许定义java.lang.Object中的public方法；
+5. @FunctionalInterface注解不是必须的；（在编译期间，会执行是否是函数式接口检查）
 
 ### 常见一些函数式接口
 
 ```java
-Predicate boolean test(T t); // 判断
-Consumer accept(T t); // 无返回值
-Function<T, R> R apply(T t); //  输入输出
-Supplier<T> T get(); // 
+// 判断，如上文的策略模式
+Predicate boolean test(T t);
+// 无返回值
+Consumer accept(T t);
+// 输入、输出、返回值
+Function<T, R> R apply(T t); 
+// 创建一个对象
+Supplier<T> T get();
 ```
 
 ## 内置的函数式接口
@@ -236,28 +269,29 @@ List<Apple> filter(List<Apple> apples, Predicate<Apple> predicate) {
 };
 
 // LongPredicate
-List<Apple> filterByW(List<Apple> apples, LongPrediceate<Apple> predicate) {
-   List<Apple> result = new ArrayList<>();
-   for(Apple a:apples) {
-      if(predicate.test(a.getW())) 
-         result.add(a);
-   }
-   return result;
+public List<Apple> filterByWeight(List<Apple> apples, LongPredicate predicate) {
+  List<Apple> result = new ArrayList<>();
+  for (Apple a : apples) {
+    if (predicate.test(a.getWeight()))
+      result.add(a);
+  }
+  return result;
 }
 
-filterByW(list, w -> w > 100);
+filterByWeight(list, w -> w > 100);
 
 // BiPredicate 两个参数的输入
-List<Apple> filterByWandC(List<Apple> apples, BiPredicate<String, Long> predicate) {
-   List<Apple> result = new ArrayList<>();
-   for(Apple a : apples) {
-      if(predicate.test(a.getC, a.getW())) {
-         result.add(a);
-      }
-   }
+public List<Apple> filterByWeightandColor(List<Apple> apples, BiPredicate<String, Integer> predicate) {
+  List<Apple> result = new ArrayList<>();
+  for (Apple a : apples) {
+    if (predicate.test(a.getColor(), a.getWeight())) {
+      result.add(a);
+    }
+  }
+  return result;
 }
 
-List<Apple> filterByWandC(list, (s, w) -> s.equals("green") && w>100);
+List<Apple> filterByWeightandColor(list, (s, w) -> s.equals("green") && w>100);
 ```
 
 ### consumer
@@ -295,8 +329,6 @@ System.out.prinln(result3);
 // 自定义Function
 ```
 
-
-
 ### supplier 
 
 ```java
@@ -304,8 +336,6 @@ System.out.prinln(result3);
 Supplier<String> s = String::new; // method inference
 System.out.println(s.get().getClass());
 ```
-
-
 
 ## 方法推导 Method references
 
@@ -322,7 +352,6 @@ private static <T> void useConsumer(Consumer<T> consumer, T t) {
 useConsumer(s -> System.out.println(s), "Hello Alex");
 useConsumer(System.out::println, "Hello Alex");
 
-
 // 什么情况下可以进行方法推导
 Function<String, Interger> f = Integer::parseInt;
 Integer result = f.apply("123");
@@ -332,37 +361,12 @@ String string = new String("Hello");
 Function<Integer, Character> f3 = String::charAt;
 Character c2 = f3.apply(4);
 System.out.println(c2);
-
-
 ```
 
-
-
-## 类型推导 Type inference
-
-## 练习：多线程改写成lambda
+# 练习
 
 ```java
-Runnable r1 = ()->System.out.prinln("Hello");
-
-Runnable r2 = new Runnable() {
-   @Override
-   public void run() {
-      System.out.println("Hello");
-   }
-}
-
-process(r1);
-process(r2);
-process(()->System.out.prinln("Hello"));
-
-private static void process(Runnable r) {
-   r.run();
-}
+// 多线程改写
+// ...
 ```
-
-## 
-
-## 补充：匿名函数，变量要是不可变的，final
-
 
